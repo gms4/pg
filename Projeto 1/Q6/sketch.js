@@ -14,37 +14,16 @@ function setup() {
   frameRate(60)
 }
 
-function inner_circle(pos) {
-  
-  
-  translate(pos.x, -pos.y)  //  muda a origem
-  point(0, 0)               //  mostra o ponto de rotação
-  rotate(outer_angle)       //  rotaciona ao redor da origem
-  fill(0, 0, 255)
-  rotateX(RAD/4)            //rotaciona o plano no eixo X
-  rotateY(-RAD/6) 
-  translate(outer_circle_diam/2, 0, 50)
-  circle(0, 0, inner_circle_diam)
-  
-  strokeWeight(1)
-  fill(255, 0, 0)
-  translate(0, 0)
-  rotate(inner_angle)
-  stroke(256, 0, 0)
-  strokeWeight(10)
-  point((inner_circle_diam/2),(0),)
-
-
-}
-
 function draw() {
-  background(220);
+  background(50);
+  orbitControl()
   //ambientLight(255)
 
-  camera()
+  //camera()
   
   rotateX(-RAD/16)
   rotateY(RAD/16)
+  rotateZ(-RAD/32)
   
   strokeWeight(2)
   stroke(255, 0, 0)
@@ -57,14 +36,37 @@ function draw() {
   
   rotateY(-RAD/4)
   rotateX(RAD/6)
+
   strokeWeight(2)
+  stroke(150)
   noFill()
   rect(0, 0, outer_circle_diam, -outer_circle_diam)
+
   fill(255)
   circle((outer_circle_diam/2), -(outer_circle_diam/2), outer_circle_diam)
 
-  inner_circle({x: outer_circle_diam/2, y: outer_circle_diam/2})
+  var pos = {x: outer_circle_diam/2, y: outer_circle_diam/2}
+
+  translate(pos.x, -pos.y)  //  muda a origem
+  point(0, 0)               //  mostra o ponto de rotação
+
+  rotate(outer_angle)       //  rotaciona ao redor da origem
+  fill(0, 0, 255)
+  rotateX(RAD/4)            //rotaciona o plano no eixo X
+  rotateY(-RAD/2)
+  translate(0, -inner_circle_diam/2, outer_circle_diam/2)
+  translate(0, inner_circle_diam, 0)
+  circle(0, 0, inner_circle_diam)
+
+  strokeWeight(1)
+  fill(255, 0, 0)
+  translate(0, 0)
+  rotate(inner_angle)
+  stroke(256, 0, 0)
+  strokeWeight(10)
+  point(0,-inner_circle_diam/2)
 
   outer_angle -= RAD/240
   inner_angle += RAD/60
+  print(outer_angle)
 }
