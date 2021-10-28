@@ -17,9 +17,6 @@ function setup() {
 function draw() {
   background(50);
   orbitControl()
-  //ambientLight(255)
-
-  //camera()
   
   rotateX(-RAD/16)
   rotateY(RAD/16)
@@ -38,11 +35,11 @@ function draw() {
   rotateX(RAD/6)
 
   strokeWeight(2)
-  stroke(150)
+  stroke(255, 255, 0)
   noFill()
   rect(0, 0, outer_circle_diam, -outer_circle_diam)
 
-  fill(255)
+  fill(255, 255, 0, 50)
   circle((outer_circle_diam/2), -(outer_circle_diam/2), outer_circle_diam)
 
   var pos = {x: outer_circle_diam/2, y: outer_circle_diam/2}
@@ -51,7 +48,7 @@ function draw() {
   point(0, 0)               //  mostra o ponto de rotação
 
   rotate(outer_angle)       //  rotaciona ao redor da origem
-  fill(0, 0, 255)
+  fill(200, 200, 100, 0)
   rotateX(RAD/4)            //rotaciona o plano no eixo X
   rotateY(-RAD/2)
   translate(0, -inner_circle_diam/2, outer_circle_diam/2)
@@ -62,7 +59,7 @@ function draw() {
   fill(255, 0, 0)
   translate(0, 0)
   rotate(inner_angle)
-  stroke(256, 0, 0)
+  stroke(0, 255, 255)
   strokeWeight(10)
   point(0,-inner_circle_diam/2)
 
