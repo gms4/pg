@@ -11,7 +11,7 @@ function setup() {
 }
 
 function inner_circle(pos) {
-  outer_angle<=-rad ? outer_angle = 0 : outer_angle += 0 //reset angle count
+  if(outer_angle<=-rad) outer_angle = 0 //reset angle count
   rotate(outer_angle-=(rad)/(4*60)) //rotaciona a elipse menor ao redor da origem
   ellipse(pos.x, pos.y, inner_circle_radius)
   fill(255, 0, 0)
