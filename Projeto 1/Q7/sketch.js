@@ -11,6 +11,7 @@ function setup() {
   frameRate(60)
 }
 
+//desenha as linhas das coordenadas
 function coordLines(){
   strokeWeight(2)
   stroke(RED)
@@ -22,10 +23,12 @@ function coordLines(){
   stroke(0)
 }
 
+//equação de bezier
 function interpolate(p0, p1, t){
   return (1-t)*p0 + t*p1
 }
 
+//interpolação 
 function linearInterpolation(p0, p1, t){
     let pos = []
 
@@ -84,5 +87,5 @@ function draw() {
   normalMaterial()
   sphere(20*UC)
   
-  t >= 1 ? t = 0 : t+=(1/240)
+  t >= 1 ? t = 0 : t+=(1/480)
 }
