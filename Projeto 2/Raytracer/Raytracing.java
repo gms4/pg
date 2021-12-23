@@ -1,29 +1,29 @@
 import objects.*;
 import utils.*;
+import javax.swing.*;
 
 class Main{
-    public static void main(String[] args){
-        
-        //Definindo tamanho da tela
-        int width = 640;
-        int height = 480;
+    public static void main(String[] args) throws InterruptedException{
 
         //Definindo objetos
-        Camera camera = new Camera(0, 0, -1, 15);
-        Sphere esfera_0 = new Sphere(0, 0, 80, 4);
-        Sphere esfera_1 = new Sphere(0, 0, 100, 2);
+        Camera camera = new Camera(500, 900, 0, 1);
+        Sphere esfera_0 = new Sphere(0, 0, 70, (float)0.00005);
         
         //colocando objetos no array de objetos
-        Object3D objects[] = new Object3D[2];
+        Object3D objects[] = new Object3D[1];
         objects[0] = esfera_0;
-        objects[1] = esfera_1;
 
         //criando a cena
-        Scene scene = new Scene(camera, objects, width, height);
+        Scene scene = new Scene(camera, objects);
 
         //Renderizando
         Engine engine = new Engine();
         engine.render(scene);
+
+        //Criando janela
+        Window window = new Window("Ray-Tracing", camera.pixelsWide, camera.pixelsHigh, scene);
+        window.frame.setContentPane(new JLabel(new ImageIcon("output/image_0.png")));
+        window.setVisible();
 
     }
 }

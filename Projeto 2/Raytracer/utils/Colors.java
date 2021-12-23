@@ -1,7 +1,7 @@
 package utils;
 
 
-public class Color {
+public class Colors {
     public int red;
     public int green;
     public int blue;
@@ -50,19 +50,19 @@ public class Color {
     public static final String CYAN_BACKGROUND = "\033[46m";   // CYAN
     public static final String WHITE_BACKGROUND = "\033[47m";  // WHITE
 
-    public Color(int red, int green, int blue, int alpha){
+    public Colors(int red, int green, int blue, int alpha){
         this.red = red;
         this.green = green;
         this.blue = blue;
         this.alpha = alpha;
     }
-    public Color(int red, int green, int blue){
+    public Colors(int red, int green, int blue){
         this(red, green, blue, 255);
     }
-    public Color(int brightness, int alpha){
+    public Colors(int brightness, int alpha){
         this(brightness, brightness, brightness, alpha);
     }
-    public Color(int brightness){
+    public Colors(int brightness){
         this(brightness, brightness, brightness, 255);
     }
 

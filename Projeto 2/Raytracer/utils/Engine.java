@@ -18,37 +18,40 @@ public class Engine {
     private long frame_render_begin;
     private long total_render_end;
     private long frame_render_end;
-
     
+    private int resWide, resHigh;
+    private long aspect_ratio;
+
+     
     public void render(Scene scene){
 
         //Passando os elementos da cena
-        int width = scene.width;
-        int height = scene.width;
+        this.resWide = scene.camera.pixelsWide;
+        this.resHigh= scene.camera.pixelsHigh;
+        this.aspect_ratio = (long)this.resWide / this.resHigh;
         Object3D[] objects = scene.objects;
-        Camera camera = scene.camera;
-        int totalFrames = 5;
+        int totalFrames = 1;
 
-        //Gerando tela
-        Window window = new Window("Ray-Tracing", width, height);
-        
         //Renderizando
         this.total_render_begin = System.nanoTime();
         for(int r = 0; r < totalFrames; r++){
             this.frame_render_begin = System.nanoTime();
 
-            File image = new File("output/image_"+r+".png");
-            BufferedImage buffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+            Colors pixel_color;
 
-            for(int y = 0; y < height; y++){
-                for(int x = 0; x < width; x++){
+            File image = new File("output/image_"+r+".png");
+            BufferedImage buffer = new BufferedImage(this.resWide, this.resHigh, BufferedImage.TYPE_INT_RGB);
+
+            for(int h = 0; h < this.resHigh; h++){
+                for(int w = 0; w < this.resWide; w++){
                     //render
-                    Ray ray = camera.castRay(x, y); 
+                    Ray ray = scene.camera.castRay(w, h); 
                     for(int i = 0; i < objects.length; i++){
                         if(objects[i].intersects(ray)){
-                            buffer.setRGB(x, y, 255);
-                        }else{
-                            buffer.setRGB(x, y, 0);
+                            pixel_color = objects[i].color;
+                            buffer.setRGB(w, h, 255);
+                        }else{ 
+                            buffer.setRGB(w, h, 0);
                         }
                     }
                 }   
@@ -65,22 +68,29 @@ public class Engine {
 
             //Reportando o tempo de renderização de um frame
             this.report(r, totalFrames, frame_render_end - frame_render_begin);
+
+            // if(r < 10){
+            //     scene.camera.origin.x += 0.1;
+            // }else{
+            //     scene.camera.origin.x += 999999999;
+            //     System.out.println("rapidão");
+            // }
+            // scene.camera.origin.z -= 0.1;
         }
         //Reportando o tempo de renderização total
         total_render_end = System.nanoTime();
         this.report(total_render_end - total_render_begin);
 
-        window.update();
     }
 
 
 
 
     private void report(int frame, int totalFrames, float delta){
-        System.out.println(Color.YELLOW + "Frame " + (frame+1) + "/" + totalFrames + Color.RESET + " - tempo de renderização: " + delta/1000000000.0F + " segundos");
+        System.out.println(Colors.YELLOW + "Frame " + (frame+1) + "/" + totalFrames + Colors.RESET + " - tempo de renderização: " + delta/1000000000.0F + " segundos");
     }
     private void report(float delta){
-        System.out.println(Color.GREEN + "\nTotal" + Color.RESET + " - Tempo de renderização: " + delta/1000000000.0F + " segundos");
+        System.out.println(Colors.GREEN + "\nTotal" + Colors.RESET + " - Tempo de renderização: " + delta/1000000000.0F + " segundos");
     }
 
 }

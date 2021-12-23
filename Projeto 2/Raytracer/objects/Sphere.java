@@ -4,12 +4,12 @@ import utils.*;
 
 public class Sphere extends Object3D{
     public float radius;
-    public Color color;
+    public Material material;
 
     public Sphere(float x, float y, float z, float radius){
         super(z, y, z);
         this.radius = radius; 
-        this.color = new Color(255, 0, 0);
+        this.material = new Material(255, 0, 0);
     }
 
     public boolean intersects(Ray ray){
