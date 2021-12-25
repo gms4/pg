@@ -69,13 +69,9 @@ public class Engine {
             //Reportando o tempo de renderização de um frame
             this.report(r, totalFrames, frame_render_end - frame_render_begin);
 
-            // if(r < 10){
-            //     scene.camera.origin.x += 0.1;
-            // }else{
-            //     scene.camera.origin.x += 999999999;
-            //     System.out.println("rapidão");
-            // }
-            // scene.camera.origin.z -= 0.1;
+            if(r < 10){
+                scene.camera.origin.x += 5;
+            }
         }
         //Reportando o tempo de renderização total
         total_render_end = System.nanoTime();

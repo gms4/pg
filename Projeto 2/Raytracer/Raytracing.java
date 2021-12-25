@@ -6,8 +6,8 @@ class Main{
     public static void main(String[] args) throws InterruptedException{
 
         //Definindo objetos
-        Camera camera = new Camera(500, 900, 0, 1);
-        Sphere esfera_0 = new Sphere(0, 0, 70, (float)0.00005);
+        Camera camera = new Camera(-7, 24, -18, 33);
+        Sphere esfera_0 = new Sphere(0, 0, 100, 5);
         
         //colocando objetos no array de objetos
         Object3D objects[] = new Object3D[1];
@@ -24,6 +24,6 @@ class Main{
         Window window = new Window("Ray-Tracing", camera.pixelsWide, camera.pixelsHigh, scene);
         window.frame.setContentPane(new JLabel(new ImageIcon("output/image_0.png")));
         window.setVisible();
-
+        
     }
 }

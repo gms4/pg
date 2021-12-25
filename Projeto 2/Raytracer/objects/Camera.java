@@ -13,9 +13,9 @@ public class Camera{
     public double angle_degree;
     public double angle_rad;
 
-    //altura e largura do plano no espaco
-    public double planeWidth;
-    public double planeHeight;
+    //comprimento da metade do plano de caoptura no espaço
+    public double hx;
+    public double hy;
     //quantidade de pixels (Resolução)
     public int pixelsWide;
     public int pixelsHigh;
@@ -24,7 +24,7 @@ public class Camera{
     public double pixelSizeY;
     
     //construtores
-    public Camera(int x, int y, int z, double f, int rw, int rh, Vector target){
+    public Camera(int x, int y, int z, double f, int resw, int resh, Vector target){
         //definindo a origem da camera
         this.origin = new Point(x, y, z);
 
@@ -37,16 +37,16 @@ public class Camera{
         this.angle_rad = (angle_degree*Math.PI)/180;
 
         //tamanho (no espaço) do plano de captura
-        this.planeWidth = 2*Math.tan(this.angle_rad/2)*this.focal_distance;
-        this.planeHeight = 2*Math.tan(this.angle_rad/2)*this.focal_distance;
+        this.hx = 2*Math.tan(this.angle_rad/2)*this.focal_distance;
+        this.hy = 2*Math.tan(this.angle_rad/2)*this.focal_distance;
 
         //resolução (em pixels) da captura
-        this.pixelsWide = rw;
-        this.pixelsHigh = rh;
+        this.pixelsWide = resw;
+        this.pixelsHigh = resh;
 
         //inferindo tamanho de um pixel individual
-        this.pixelSizeX = this.planeWidth/this.pixelsWide;
-        this.pixelSizeY = this.planeHeight/this.pixelsHigh;
+        this.pixelSizeX = this.hx/this.pixelsWide;
+        this.pixelSizeY = this.hy/this.pixelsHigh;
 
         //só o vetor alvo varia
         this.target_vector = target;
@@ -57,7 +57,7 @@ public class Camera{
         this(x, y, z, f, rw, rh, new Vector(0, 0, 1));
     }
     public Camera(int x, int y, int z, double f){
-        this(x, y, z, f, 640, 680, new Vector(0, 0, 1));
+        this(x, y, z, f, 640, 480, new Vector(0, 0, 1));
     }
 
     //cria um raio que parte da camera e passa pelo pixel desejado
@@ -65,8 +65,8 @@ public class Camera{
 
         //definindo o ponto minimo no plano de captura
         Point point = new Point(
-            (float)(this.origin.x - (this.planeWidth/2) + (this.pixelSizeX/2)),
-            (float)(this.origin.y - (this.planeHeight/2) + (this.pixelSizeY/2)),
+            (float)(this.origin.x - (this.hx) + (this.hx)),
+            (float)(this.origin.y - (this.hy) + (this.hy)),
             (float)(this.origin.z + this.focal_distance)
         );
 

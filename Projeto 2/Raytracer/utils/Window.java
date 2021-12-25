@@ -16,7 +16,7 @@ public class Window extends Canvas implements Runnable{
         this.title = title;
         this.scene = scene;
         frame = new JFrame(this.title);
-        Dimension size = new Dimension(width, height);
+        Dimension size = new Dimension(width, height+40);
         frame.setPreferredSize(size);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

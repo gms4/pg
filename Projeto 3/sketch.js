@@ -7,7 +7,7 @@ var currentCurve;
 var btnHeight;
 
 function setup() {
-  createCanvas(1200, 600);
+  createCanvas(1535, 760);
   
   btnHeight = height/8
 
@@ -148,15 +148,11 @@ function renderUI(){
   text("Clique DELETE para remover pontos de controle da curva selecionada", (width/10)+10, 55)
 }
 
-function renderCurves(){
-  board.render()
-}
-
 function draw() {
   background(220);
   mx = mouseX - (board.start + (board.length/2));
   my = mouseY - (height/2);
-  renderCurves();
+  board.render();
   if(lastPointGrab != null && lastPointGrab.grabbed){
     lastPointGrab.x = mx
     lastPointGrab.y = my
