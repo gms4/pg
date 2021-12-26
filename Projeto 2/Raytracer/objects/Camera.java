@@ -24,21 +24,17 @@ public class Camera{
     public double pixelSizeY;
     
     //construtores
-    public Camera(int x, int y, int z, double f, int resw, int resh, Vector target){
+    public Camera(int x, int y, int z, double f, int resw, int resh, int hx, Vector target, Vector up_vector){
         //definindo a origem da camera
         this.origin = new Point(x, y, z);
 
         //definindo a distância focal
         this.focal_distance = f;
 
-        //definindo o angulo da camera
-        this.angle_degree = 60;
-        //inferindo esse angulo em radianos
-        this.angle_rad = (angle_degree*Math.PI)/180;
-
         //tamanho (no espaço) do plano de captura
-        this.hx = 2*Math.tan(this.angle_rad/2)*this.focal_distance;
-        this.hy = 2*Math.tan(this.angle_rad/2)*this.focal_distance;
+        this.hx = hx;
+        this.hy = (hx*resh)/resw;
+        //2*Math.tan(this.angle_rad/2)*this.focal_distance
 
         //resolução (em pixels) da captura
         this.pixelsWide = resw;
@@ -48,37 +44,50 @@ public class Camera{
         this.pixelSizeX = this.hx/this.pixelsWide;
         this.pixelSizeY = this.hy/this.pixelsHigh;
 
-        //só o vetor alvo varia
-        this.target_vector = target;
-        this.up_vector = new Vector(0, 1, 0);
+        //normaliza os vetores da camera
+        double target_norma = Math.sqrt((target.x*target.x) + (target.y*target.y) + (target.z*target.z));
+        this.target_vector = new Vector(
+            (float)(target.x / target_norma),
+            (float)(target.y / target_norma),
+            (float)(target.z / target_norma)
+        );
+        double up_norma = Math.sqrt((up_vector.x*up_vector.x) + (up_vector.y*up_vector.y) + (up_vector.z*up_vector.z));
+        this.up_vector = new Vector(
+            (float)(up_vector.x / up_norma),
+            (float)(up_vector.y / up_norma),
+            (float)(up_vector.z / up_norma)
+        );
         this.orto_vector = this.target_vector.crossProduct(this.up_vector);
+        double orto_norma = Math.sqrt((this.orto_vector.x*this.orto_vector.x) + (this.orto_vector.y*this.orto_vector.y) + (this.orto_vector.z*this.orto_vector.z));
+        this.orto_vector = new Vector(
+            (float)(this.orto_vector.x/orto_norma),
+            (float)(this.orto_vector.y/orto_norma),
+            (float)(this.orto_vector.z/orto_norma)
+        );
     }
-    public Camera(int x, int y, int z, double f, int rw, int rh){
-        this(x, y, z, f, rw, rh, new Vector(0, 0, 1));
-    }
-    public Camera(int x, int y, int z, double f){
-        this(x, y, z, f, 640, 480, new Vector(0, 0, 1));
+    public Camera(int x, int y, int z, double f, int resw, int resh, int hx, Point target, Vector up_vector){
+        this(x, y, z, f, resw, resh, hx, new Vector(target.x - x, target.y - y, target.z - z), up_vector);
     }
 
     //cria um raio que parte da camera e passa pelo pixel desejado
     public Ray castRay(float px, float py){
 
-        //definindo o ponto minimo no plano de captura
-        Point point = new Point(
-            (float)(this.origin.x - (this.hx) + (this.hx)),
-            (float)(this.origin.y - (this.hy) + (this.hy)),
-            (float)(this.origin.z + this.focal_distance)
-        );
+        float planeCoordX = this.map(px, 0, this.pixelsWide, -this.hx, this.hx, 6);
+        float planeCoordY = this.map(py, 0, this.pixelsHigh, -this.hy, this.hy, 6);
+        double planeCoordZ = this.focal_distance;
 
-        //distancias x e y a partir do pixels 0, 0 do plano de captura
-        float x_dist = (float)((this.pixelSizeX * (px + 1)) - (this.pixelSizeX/2));
-        float y_dist = (float)((this.pixelSizeY * (py + 1)) - (this.pixelSizeY/2));
-
-        //achando o ponto global desse pixel
-        point.x  = point.x + x_dist;
-        point.y  = point.y + y_dist;
-
-        Vector direction = new Vector(point.x, point.y, (float)(this.origin.z+this.focal_distance));
+        Vector direction = new Vector(this.origin, new Point(planeCoordX, planeCoordY, (float)planeCoordZ));
         return new Ray(this.origin, direction);
+    }
+
+    private float map(double sourceNumber, double fromA, double fromB, double toA, double toB, int decimalPrecision ) {
+        double deltaA = fromB - fromA;
+        double deltaB = toB - toA;
+        double scale  = deltaB / deltaA;
+        double negA   = -1 * fromA;
+        double offset = (negA * scale) + toA;
+        double finalNumber = (sourceNumber * scale) + offset;
+        int calcScale = (int) Math.pow(10, decimalPrecision);
+        return Math.round(finalNumber * calcScale) / calcScale;
     }
 }

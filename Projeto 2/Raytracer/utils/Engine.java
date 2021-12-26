@@ -3,7 +3,7 @@ package utils;
 import java.io.File;
 import javax.imageio.ImageIO;
 import java.lang.Math;
-import java.io.File;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.awt.Canvas;
 import javax.swing.ImageIcon;
@@ -37,22 +37,26 @@ public class Engine {
         for(int r = 0; r < totalFrames; r++){
             this.frame_render_begin = System.nanoTime();
 
-            Colors pixel_color;
+            Color pixel_color;
+            boolean filled;
 
             File image = new File("output/image_"+r+".png");
             BufferedImage buffer = new BufferedImage(this.resWide, this.resHigh, BufferedImage.TYPE_INT_RGB);
 
             for(int h = 0; h < this.resHigh; h++){
                 for(int w = 0; w < this.resWide; w++){
+                    filled = false;
                     //render
                     Ray ray = scene.camera.castRay(w, h); 
                     for(int i = 0; i < objects.length; i++){
-                        if(objects[i].intersects(ray)){
-                            pixel_color = objects[i].color;
-                            buffer.setRGB(w, h, 255);
-                        }else{ 
-                            buffer.setRGB(w, h, 0);
+                        if(objects[i].intersects(scene.camera, ray)){
+                            pixel_color = objects[i].getMaterial().color;
+                            buffer.setRGB(w, h, pixel_color.getRGB());
+                            filled = true;
                         }
+                    }
+                    if(!filled){
+                        buffer.setRGB(w, h, 0);
                     }
                 }   
             }
@@ -69,9 +73,7 @@ public class Engine {
             //Reportando o tempo de renderização de um frame
             this.report(r, totalFrames, frame_render_end - frame_render_begin);
 
-            if(r < 10){
-                scene.camera.origin.x += 5;
-            }
+            //scene.objects[0].center.z -= 2;
         }
         //Reportando o tempo de renderização total
         total_render_end = System.nanoTime();

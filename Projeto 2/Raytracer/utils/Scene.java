@@ -38,7 +38,11 @@ public class Scene {
         //          { T.x*P.x + O.x*P.y + U.x*P.z = [P.z]nova_base
 
         for(int i = 0; i < this.objects.length; i++){
-            Point P = this.objects[i].center;
+            Point P = new Point(
+                this.objects[i].center.x,
+                this.objects[i].center.y,
+                this.objects[i].center.z
+            );
             this.objects[i].center.x = (T.z*P.x) + (O.z*P.y) + (U.z*P.z);
             this.objects[i].center.y = (T.y*P.x) + (O.y*P.y) + (U.y*P.z);
             this.objects[i].center.z = (T.x*P.x) + (O.x*P.y) + (U.x*P.z);

@@ -4,15 +4,16 @@ import utils.*;
 
 public class Object3D {
     public Point center;
-    public Material material;
-    public Colors color = new Colors(255);
 
     public Object3D(float x, float y ,float z){
         this.center = new Point(x, y, z);
-        this.material = new Material();
     }
 
-    public boolean intersects(Ray ray){
+    public Material getMaterial(){
+        return new Material();
+    }
+
+    public boolean intersects(Camera camera, Ray ray){
         return false;
     }
 }

@@ -1,18 +1,39 @@
 package objects;
 
+import javax.lang.model.util.ElementScanner14;
+
 import utils.*;
 
 public class Sphere extends Object3D{
     public float radius;
     public Material material;
 
-    public Sphere(float x, float y, float z, float radius){
-        super(z, y, z);
+    public Sphere(float x, float y, float z, float radius, Material mat){
+        super(x, y, z);
         this.radius = radius; 
-        this.material = new Material(255, 0, 0);
+        this.material = mat;
     }
 
-    public boolean intersects(Ray ray){
+    public Material getMaterial(){
+        return this.material;
+    }
+
+    public boolean intersects(Camera camera, Ray ray){
+        //vetor entre centro da camera e centro da esfera
+        Vector camera_to_sphere = new Vector(ray.origin, this.center);
+        //Achamos a projeção entre o vetor Camera-Esfera e o ray
+        Vector proj = camera_to_sphere.proj(ray.direction);
+        //obtemos a distancia entre essa projeção e o centro da esfera
+        float distance = proj.toPoint().distanceTo(this.center).magnitude;
+        //checamos se essa distancia é menor que o raio da esfera
+        if(distance <= this.radius){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public boolean intersectionPoint(Ray ray){
         
         //equação da esfera:
         // ||x-c||^2 = r^2
