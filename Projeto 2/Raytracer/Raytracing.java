@@ -13,7 +13,7 @@ class Main{
         //Definindo objetos
         Camera camera = new Camera(0, 0, 0, 360, 720, 480, 360, new Point(0, 0, 120), new Vector(1, 0, 0));
         Sphere esfera_0 = new Sphere(0, 0, 360, 50, m1);
-        Sphere esfera_1 = new Sphere(0, 0, 300, 50, m2);
+        Sphere esfera_1 = new Sphere(200, 0, 300, 50, m2);
         Light light_0 = new Light(0, 200, 200, 50, 50, 50);
 
         //colocando objetos no array de objetos

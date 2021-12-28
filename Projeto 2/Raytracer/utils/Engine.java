@@ -29,7 +29,7 @@ public class Engine {
         this.resWide = scene.camera.pixelsWide;
         this.resHigh= scene.camera.pixelsHigh;
         this.aspect_ratio = (long)this.resWide / this.resHigh;
-        int totalFrames = 1;
+        int totalFrames = 100;
 
         //Renderizando
         this.total_render_begin = System.nanoTime();
