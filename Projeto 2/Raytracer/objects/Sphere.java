@@ -18,13 +18,21 @@ public class Sphere extends Object3D{
         return this.material;
     }
 
-    public boolean intersects(Camera camera, Ray ray){
+    public boolean intersects(Ray ray){
         //vetor entre centro da camera e centro da esfera
         Vector camera_to_sphere = new Vector(ray.origin, this.center);
         //Achamos a projeção entre o vetor Camera-Esfera e o ray
         Vector proj = camera_to_sphere.proj(ray.direction);
-        //obtemos a distancia entre essa projeção e o centro da esfera
-        float distance = proj.toPoint().distanceTo(this.center).magnitude;
+        //declaramos a distancia
+        float distance = 0;
+        if(ray.origin == new Point(0,0,0)){
+            //obtemos a distancia entre essa projeção e o centro da esfera
+            distance = proj.toPoint().distanceTo(this.center).magnitude;
+        }else{
+            Point p = ray.origin.addVector(proj);
+            //obtemos a distancia entre essa projeção e o centro da esfera
+            distance = p.distanceTo(this.center).magnitude;
+        }
         //checamos se essa distancia é menor que o raio da esfera
         if(distance <= this.radius){
             return true;
@@ -33,7 +41,7 @@ public class Sphere extends Object3D{
         }
     }
 
-    public boolean intersectionPoint(Ray ray){
+    public Point intersectionPoint(Ray ray){
         
         //equação da esfera:
         // ||x-c||^2 = r^2
@@ -67,21 +75,21 @@ public class Sphere extends Object3D{
         //t = ( -b +- sqrt(b^2 - 4ac) ) / 2
         //delta = b^2 - 4ac
         float delta = b*b - 4*a*c;
-        
-        //intersecta dois pontos da esfera (existe refração)
-        if (delta > 0){
-            //deve-se calcular a cor?
-            return true;
+        //achamos as distancias até o ponto de intersecção para usar de parametro dentro do raio de luz
+        float dist1 = Math.abs((float)( -b + Math.sqrt(delta) ) / 2*a);
+        float dist2 = Math.abs((float)( -b - Math.sqrt(delta) ) / 2*a);
+
+        //finalmente usamos a menor distancia como parametro para achar o ponto em si
+        if(dist1 <= dist2){
+            return ray.at(dist1);
+        }else{
+            return ray.at(dist2);
         }
-        //tangencia a esfera (sem refração)
-        else if (delta == 0){
-            //deve-se calcular a cor?
-            return false;
-        }
-        //não toca na esfera
-        else if (delta < 0){
-            return false;
-        } 
-        return false;
+    }
+
+    public Vector getNormalAt(Point p){
+        Vector normal = p.minus(this.center);
+        normal.normalize();
+        return normal;
     }
 }

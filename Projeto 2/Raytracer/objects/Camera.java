@@ -41,8 +41,8 @@ public class Camera{
         this.pixelsHigh = resh;
 
         //inferindo tamanho de um pixel individual
-        this.pixelSizeX = this.hx/this.pixelsWide;
-        this.pixelSizeY = this.hy/this.pixelsHigh;
+        this.pixelSizeX = 2*this.hx/this.pixelsWide;
+        this.pixelSizeY = 2*this.hy/this.pixelsHigh;
 
         //normaliza os vetores da camera
         double target_norma = Math.sqrt((target.x*target.x) + (target.y*target.y) + (target.z*target.z));
@@ -72,11 +72,11 @@ public class Camera{
     //cria um raio que parte da camera e passa pelo pixel desejado
     public Ray castRay(float px, float py){
 
-        float planeCoordX = this.map(px, 0, this.pixelsWide, -this.hx, this.hx, 6);
-        float planeCoordY = this.map(py, 0, this.pixelsHigh, -this.hy, this.hy, 6);
-        double planeCoordZ = this.focal_distance;
+        float planeCoordX = this.map(px, 0, this.pixelsWide-1, -this.hx, this.hx, 6);
+        float planeCoordY = this.map(py, 0, this.pixelsHigh-1, -this.hy, this.hy, 6);
+        float planeCoordZ = (float)this.focal_distance;
 
-        Vector direction = new Vector(this.origin, new Point(planeCoordX, planeCoordY, (float)planeCoordZ));
+        Vector direction = new Vector(this.origin, new Point(planeCoordX, planeCoordY, planeCoordZ));
         return new Ray(this.origin, direction);
     }
 

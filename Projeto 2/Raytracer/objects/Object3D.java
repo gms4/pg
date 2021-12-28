@@ -13,7 +13,15 @@ public class Object3D {
         return new Material();
     }
 
-    public boolean intersects(Camera camera, Ray ray){
+    public boolean intersects(Ray ray){
         return false;
+    }
+
+    public Point intersectionPoint(Ray ray){
+        return new Point();
+    }
+
+    public Vector getNormalAt(Point p){
+        return new Vector(0,0,0);
     }
 }

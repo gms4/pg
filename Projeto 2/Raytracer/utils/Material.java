@@ -3,19 +3,23 @@ import java.awt.Color;
 
 public class Material {
     public Color color;
-    public float diffuse;
-    public float specularity;
-    public float trasmission;
-    public float traslucency;
-    public float emission;
+    public double ambient;
+    public double diffuse;
+    public double specularity;
+    public double q;
+    public double reflexion;
+    public double transmission;
 
-    public Material(Color color){
-        this.color = color;
-    }
-    public Material(int r, int g, int b){
-        this(new Color(r, g, b));
+    public Material(Color base, double ambient, double diffuse, double specularity, double q, double reflexion, double transmission){
+        this.color = base;
+        this.ambient = ambient;
+        this.diffuse = diffuse;
+        this.specularity = specularity;
+        this.q = q;
+        this.reflexion = reflexion;
+        this.transmission = transmission;
     }
     public Material(){
-        this(new Color(255));
+        this(new Color(255), 0, 0, 0, 0, 0, 0);
     }
 }

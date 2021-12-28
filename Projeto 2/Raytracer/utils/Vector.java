@@ -1,9 +1,9 @@
 package utils;
 
 public class Vector {
-    public final float x;
-    public final float y;
-    public final float z;
+    public float x;
+    public float y;
+    public float z;
     public float magnitude;
   
     //construtores
@@ -24,6 +24,11 @@ public class Vector {
     //implementando soma (entre dois vetores)
     public Vector add(Vector added) {
       return new Vector(x + added.x, y + added.y, z + added.z);
+    }
+
+    //implementando subtração (entre dois vetores)
+    public Vector minus(Vector subbed) {
+      return new Vector(x - subbed.x, y - subbed.y, z - subbed.z);
     }
 
     //implementando produto escalar (entre dois vetores)
@@ -53,6 +58,15 @@ public class Vector {
     public Vector proj(Vector base){
       float multiplier = this.dotProduct(base)/(base.magnitude*base.magnitude);
       return base.multipliedBy(multiplier);
+    }
+
+    //normaliza o vetor
+    public void normalize(){
+        float norm = (float) Math.sqrt(this.x*this.x + this.y*this.y + this.z*this.z);
+        this.x = this.x / norm;
+        this.y = this.y / norm;
+        this.z = this.z / norm;
+        this.magnitude = 1; 
     }
 
     //tranformando em ponto

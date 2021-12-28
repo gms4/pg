@@ -21,4 +21,22 @@ public class Point {
         
         return new Vector(dx, dy, dz);
     }
+
+    public Point addVector(Vector v){
+        return new Point(
+            this.x + v.x,
+            this.y + v.y,
+            this.z + v.z
+        );
+    }
+
+    public Vector minus(Point p){
+        Vector result = new Vector(
+            this.x - p.x,
+            this.y - p.y,
+            this.z - p.z
+        );
+        return result;
+    }
+
 }
